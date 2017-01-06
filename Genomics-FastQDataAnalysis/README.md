@@ -45,23 +45,32 @@ Combining Azure Batch with Azure Functions, Azure Data Lake and Power-BI can ena
 
 **Steps to Deploy Required Resources in Azure**
 
-Option 1: Direct Deployment from GitHub 
+**Option 1:** Direct Deployment from GitHub 
 
-	Click to Preview Deployed Resources
-	
-	<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
-	    <img src="http://armviz.io/visualizebutton.png"/>
-	</a>
-	
-	OR
-	
-	Click to Deploy using Microsoft Azure Portal 
-	
-	<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
-	    <img src="http://azuredeploy.net/deploybutton.png"/>
-	</a>
+Click to Preview Deployed Resources
 
-Option 2: Using Powershell
-1. Browse to https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleDeploymentScript/AzureARMTemplate
-2. 
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
+    <img src="http://armviz.io/visualizebutton.png"/>
+</a>
+
+OR
+
+Click to Deploy using Microsoft Azure Portal 
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+
+**Option 2:** Using Powershell Script
+
+1. Install Powershell for Azure from here.
+
+3. Browse to https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleDeploymentScript/AzureARMTemplate
+
+4.  Download all scripts and configurations.
+
+5.  Modify [parameters file](https://raw.githubusercontent.com/Microsoft-USEduAzure/templates/master/Genomics-FastQDataAnalysis/SampleDeploymentScript/AzureARMTemplate/parameters.json). 
+
+6. Modify and Execute [PowerShell Script](https://raw.githubusercontent.com/Microsoft-USEduAzure/templates/master/Genomics-FastQDataAnalysis/SampleDeploymentScript/AzureARMTemplate/deploy.sh).
+
 > Written with [StackEdit](https://stackedit.io/).
