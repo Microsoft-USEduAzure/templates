@@ -1,0 +1,9 @@
+﻿{
+  "frameworks": {
+    "net46":{
+      "dependencies": {
+        "Azure.Batch": "5.1.2"
+      }
+    }
+  }
+}

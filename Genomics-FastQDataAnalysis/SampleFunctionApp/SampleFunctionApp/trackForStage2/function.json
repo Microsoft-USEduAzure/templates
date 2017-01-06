@@ -1,0 +1,26 @@
+﻿{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "stage1donefile",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "processroot/input/{barcodeId}/{fileId}_2_fastq.done",
+      "connection": "StorageAccountMain"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueueItem",
+      "queueName": "goodforstage2",
+      "connection": "StorageAccountMain",
+      "direction": "out"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueueItemWithError",
+      "queueName": "badforstage2",
+      "connection": "StorageAccountMain",
+      "direction": "out"
+    }
+  ]
+}

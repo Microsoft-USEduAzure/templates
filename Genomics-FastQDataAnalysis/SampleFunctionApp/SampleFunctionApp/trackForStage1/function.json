@@ -1,0 +1,26 @@
+﻿{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "fastQZipBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "processroot/input/{barcodeId}/{fileId}_2_fastq.gz",
+      "connection": "StorageAccountMain"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueueItem",
+      "queueName": "goodforstage1",
+      "connection": "StorageAccountMain",
+      "direction": "out"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueueItemWithError",
+      "queueName": "badforstage1",
+      "connection": "StorageAccountMain",
+      "direction": "out"
+    }
+  ]
+}
