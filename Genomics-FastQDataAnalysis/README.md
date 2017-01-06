@@ -44,14 +44,45 @@ Combining Azure Batch with Azure Functions, Azure Data Lake and Power-BI can ena
  - End to end security and collaboration of proprietary research
    operations and data.
 
+
 Sample Genomics Input and Reference Data
 ----------------------------------------
 1. Download from [Here](https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleInputDataAndScripts/processroot/input).
 
 (**NOTE:** We used [1000 Genomics](http://www.internationalgenome.org/data) website to downloads sample FASTQ flow-cell Sample data files)
 
-Linux BASH Scripts for Stage1 and Stage2 Processing
+
+
+Sample Linux BASH Scripts for Stage1 and Stage2 Processing
 ---------------------------------------------------
+
+1. Download from Here.
+
+2.  Modify the scripts files for any custom processing.
+
+3. Upload into Storage Account using Azure Storage Explorer utility (Download).
+
+
+Required Azure Batch Start Task Script
+--------------------------------------
+
+Following script installs required Python and Azure Python SDK components used by Azure Batch Task Nodes.
+
+1. Open the LargeMachinePool1 and SmallMachinePool1 separately.
+
+2.  Assign following script to Start Task section and save.
+
+----------
+
+/bin/bash -c 'set -e; set -o pipefail;
+apt-get update;
+apt-get -y install python-pip;
+apt-get -y install build-essential libssl-dev libffi-dev python-dev;
+pip install azure-storage; 
+wait'
+
+----------
+
 
 Steps to Deploy Required Resources in Azure
 -------------------------------------------
