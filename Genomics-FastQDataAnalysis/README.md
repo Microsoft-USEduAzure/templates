@@ -44,6 +44,14 @@ Combining Azure Batch with Azure Functions, Azure Data Lake and Power-BI can ena
  - End to end security and collaboration of proprietary research
    operations and data.
 
+Sample Genomics Input and Reference Data
+----------------------------------------
+1. Download from [Here](https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleInputDataAndScripts/processroot/input).
+
+(**NOTE:** We used [1000 Genomics](http://www.internationalgenome.org/data) website to downloads sample FASTQ flow-cell Sample data files)
+
+Linux BASH Scripts for Stage1 and Stage2 Processing
+---------------------------------------------------
 
 Steps to Deploy Required Resources in Azure
 -------------------------------------------
@@ -102,6 +110,7 @@ Steps to Download and Publish Sample Function App (Written in C#, working on Nod
 "**BatchAccountName**": "YourBatchAccount",
 "**BatchAccountURL**": "YourBatchAccountURL",
 "**BatchAccountKey**": "YourBatchAccountKey"
+
 
 
 ----------
