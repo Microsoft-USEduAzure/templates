@@ -1,6 +1,6 @@
 Microsoft Education Cloud Solution Architects Team
 ==================================================
-Repeatable Education Solutions Repository
+Our Repository for Repetable Education Solution Architectures
 -----------------------------
 
 Thanks for visiting our templates repository. Here you can find different repeatable solution templates including:
