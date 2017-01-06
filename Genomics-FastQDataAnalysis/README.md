@@ -42,7 +42,7 @@ Combining Azure Batch with Azure Functions, Azure Data Lake and Power-BI can ena
  - End to end security and collaboration of proprietary research
    operations and data.
 
-Steps to Deploy Required Resources in Azure
+**Steps to Deploy Required Resources in Azure**
 
 Option 1: Direct Deployment from GitHub 
 
@@ -55,6 +55,7 @@ Click to Preview Deployed Resources
 OR
 
 Click to Deploy using Microsoft Azure Portal 
+
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
