@@ -7,6 +7,7 @@ Repeatable Education Solutions Repository
 -----------------------------
 ----------
 ![enter image description here](https://evbdn.eventbrite.com/s3-s3/eventlogos/12166621/winazureedu.png)
+----------
 Thanks for visiting our templates repository. Here you can find different repeatable solution templates including:
 
  - Details describing the specific problem domain we have taken as a
