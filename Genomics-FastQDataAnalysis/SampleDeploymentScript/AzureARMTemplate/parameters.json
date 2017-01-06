@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_jumpbox1_adminPassword": {
+            "value": null
+        },
+        "accounts_uncpoc1_defaultDataLakeStoreAccount": {
+            "value": null
+        },
+        "accounts_uncpoc1_dataLakeStoreAccounts": {
+            "value": null
+        },
+        "extensions_enablevmaccess_protectedSettings": {
+            "value": null
+        },
+        "batchAccounts_uncpoc1_name": {
+            "value": null
+        },
+        "virtualMachines_jumpbox1_name": {
+            "value": null
+        },
+        "accounts_uncpoc1_name": {
+            "value": null
+        },
+        "accounts_uncpoc1_name_1": {
+            "value": null
+        },
+        "networkInterfaces_jumpbox1223_name": {
+            "value": null
+        },
+        "networkSecurityGroups_jumpbox1_nsg_name": {
+            "value": null
+        },
+        "publicIPAddresses_jumpbox1_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_unc_gateway_ip_name": {
+            "value": null
+        },
+        "virtualNetworks_unc_cloud_name": {
+            "value": null
+        },
+        "storageAccounts_uncfunctionapp1_name": {
+            "value": null
+        },
+        "storageAccounts_uncpoc_name": {
+            "value": null
+        },
+        "storageAccounts_uncpocfunctionapp1_name": {
+            "value": null
+        },
+        "storageAccounts_uncpocvmdiagstorage_name": {
+            "value": null
+        },
+        "storageAccounts_uncpocvmstorage_name": {
+            "value": null
+        },
+        "extensions_enablevmaccess_name": {
+            "value": null
+        }
+    }
+}

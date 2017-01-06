@@ -1,0 +1,401 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_jumpbox1_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "accounts_uncpoc1_defaultDataLakeStoreAccount": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "accounts_uncpoc1_dataLakeStoreAccounts": {
+            "defaultValue": null,
+            "type": "Array"
+        },
+        "extensions_enablevmaccess_protectedSettings": {
+            "defaultValue": null,
+            "type": "SecureObject"
+        },
+        "batchAccounts_uncpoc1_name": {
+            "defaultValue": "uncpoc1",
+            "type": "String"
+        },
+        "virtualMachines_jumpbox1_name": {
+            "defaultValue": "jumpbox1",
+            "type": "String"
+        },
+        "accounts_uncpoc1_name": {
+            "defaultValue": "uncpoc1",
+            "type": "String"
+        },
+        "accounts_uncpoc1_name_1": {
+            "defaultValue": "uncpoc1",
+            "type": "String"
+        },
+        "networkInterfaces_jumpbox1223_name": {
+            "defaultValue": "jumpbox1223",
+            "type": "String"
+        },
+        "networkSecurityGroups_jumpbox1_nsg_name": {
+            "defaultValue": "jumpbox1-nsg",
+            "type": "String"
+        },
+        "publicIPAddresses_jumpbox1_ip_name": {
+            "defaultValue": "jumpbox1-ip",
+            "type": "String"
+        },
+        "publicIPAddresses_unc_gateway_ip_name": {
+            "defaultValue": "unc_gateway_ip",
+            "type": "String"
+        },
+        "virtualNetworks_unc_cloud_name": {
+            "defaultValue": "unc_cloud",
+            "type": "String"
+        },
+        "storageAccounts_uncfunctionapp1_name": {
+            "defaultValue": "uncfunctionapp1",
+            "type": "String"
+        },
+        "storageAccounts_uncpoc_name": {
+            "defaultValue": "uncpoc",
+            "type": "String"
+        },
+        "storageAccounts_uncpocfunctionapp1_name": {
+            "defaultValue": "uncpocfunctionapp1",
+            "type": "String"
+        },
+        "storageAccounts_uncpocvmdiagstorage_name": {
+            "defaultValue": "uncpocvmdiagstorage",
+            "type": "String"
+        },
+        "storageAccounts_uncpocvmstorage_name": {
+            "defaultValue": "uncpocvmstorage",
+            "type": "String"
+        },
+        "extensions_enablevmaccess_name": {
+            "defaultValue": "jumpbox1/enablevmaccess",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Batch/batchAccounts/uncpoc1'.",
+            "type": "Microsoft.Batch/batchAccounts",
+            "name": "[parameters('batchAccounts_uncpoc1_name')]",
+            "apiVersion": "2015-12-01",
+            "location": "eastus2",
+            "properties": {
+                "autoStorage": {
+                    "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_uncpoc_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_uncpoc_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Compute/virtualMachines/jumpbox1'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_jumpbox1_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "eastus2",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A2_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04.0-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_jumpbox1_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_uncpocvmstorage_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_jumpbox1_name'),'20161224140246.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_jumpbox1_name')]",
+                    "adminUsername": "userone",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_jumpbox1_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_jumpbox1223_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_uncpocvmstorage_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_jumpbox1223_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.DataLakeAnalytics/accounts/uncpoc1'.",
+            "type": "Microsoft.DataLakeAnalytics/accounts",
+            "name": "[parameters('accounts_uncpoc1_name')]",
+            "apiVersion": "2015-10-01-preview",
+            "location": "eastus2",
+            "properties": {
+                "defaultDataLakeStoreAccount": "[parameters('accounts_uncpoc1_defaultDataLakeStoreAccount')]",
+                "dataLakeStoreAccounts": "[parameters('accounts_uncpoc1_dataLakeStoreAccounts')]"
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.DataLakeStore/accounts/uncpoc1'.",
+            "type": "Microsoft.DataLakeStore/accounts",
+            "name": "[parameters('accounts_uncpoc1_name_1')]",
+            "apiVersion": "2015-10-01-preview",
+            "location": "eastus2",
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Network/networkInterfaces/jumpbox1223'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_jumpbox1223_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "eastus2",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.0.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_jumpbox1_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_unc_cloud_name')), '/subnets/default')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_jumpbox1_nsg_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_jumpbox1_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_unc_cloud_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_jumpbox1_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Network/networkSecurityGroups/jumpbox1-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_jumpbox1_nsg_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "eastus2",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-ssh",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Network/publicIPAddresses/jumpbox1-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_jumpbox1_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "eastus2",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Network/publicIPAddresses/unc_gateway_ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_unc_gateway_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "eastus2",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Network/virtualNetworks/unc_cloud'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_unc_cloud_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "eastus2",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    },
+                    {
+                        "name": "GatewaySubnet",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Storage/storageAccounts/uncfunctionapp1'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_uncfunctionapp1_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus2",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Storage/storageAccounts/uncpoc'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_uncpoc_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus2",
+            "tags": {},
+            "properties": {
+                "encryption": {
+                    "keySource": "Microsoft.Storage",
+                    "services": {
+                        "blob": {
+                            "enabled": true
+                        }
+                    }
+                }
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Storage/storageAccounts/uncpocfunctionapp1'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_uncpocfunctionapp1_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus2",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Storage/storageAccounts/uncpocvmdiagstorage'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_uncpocvmdiagstorage_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus2",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Storage/storageAccounts/uncpocvmstorage'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_uncpocvmstorage_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastus2",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6a4a1c3a-f97d-4dae-aed1-22885e14220f/resourceGroups/uncpoc/providers/Microsoft.Compute/virtualMachines/jumpbox1/extensions/enablevmaccess'.",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[parameters('extensions_enablevmaccess_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "eastus2",
+            "properties": {
+                "publisher": "Microsoft.OSTCExtensions",
+                "type": "VMAccessForLinux",
+                "typeHandlerVersion": "1.4",
+                "autoUpgradeMinorVersion": true,
+                "settings": {},
+                "protectedSettings": "[parameters('extensions_enablevmaccess_protectedSettings')]"
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_jumpbox1_name'))]"
+            ]
+        }
+    ]
+}
