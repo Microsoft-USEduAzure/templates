@@ -23,9 +23,9 @@ Thanks for visiting our templates repository. Here you can find different repeat
 
 You can also visit our [blog](https://blogs.msdn.microsoft.com/azureedu/) for any further help.
 
- 
-
- 
-  
+. 
+.
+.
+.  
 
 > Written with [StackEdit](https://stackedit.io/).
