@@ -12,9 +12,9 @@ HPC Data Analysis Solution for Genomics FastQ Sample Files
  - HPC combined with Big Data orchestrates and executes multiple Open
    Source tools per DNA sample.
  - Limited capacity of the required HPC infrastructure increases the per
-   sample processing time
+   sample processing time.
  - Reprocessing thousands of analyzed samples with new reference data
-   becomes impossible due to such limitations
+   becomes impossible due to such limitations.
 
 **Solution Architecture and Components**
 
