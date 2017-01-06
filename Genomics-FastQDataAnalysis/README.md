@@ -21,7 +21,9 @@ Data Analysis Solution for Genomics FastQ Sample Files
 ![enter image description here](https://github.com/Microsoft-USEduAzure/templates/blob/master/Genomics-FastQDataAnalysis/solarch1.png?raw=true)
 ----------
 
-**"Azure Batch" as our High Performance Computing Solution:**
+
+"Azure Batch" as our High Performance Computing Solution:
+---------------------------------------------------------
 
 Azure Batch is a Platform as a Service offering  for running unlimited large-scale, parallel and HPC applications efficiently in the cloud.
 
@@ -43,9 +45,10 @@ Combining Azure Batch with Azure Functions, Azure Data Lake and Power-BI can ena
    operations and data.
 
 
-**Steps to Deploy Required Resources in Azure**
+Steps to Deploy Required Resources in Azure
+-------------------------------------------
 
-**Option 1:** Direct Deployment from GitHub 
+**Option 1:  Direct Deployment from GitHub** 
 
 Click to Preview Deployed Resources
 
@@ -61,7 +64,7 @@ Click to Deploy using Microsoft Azure Portal
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-**Option 2:** Using Powershell Script
+**Option 2: Using Powershell Script**
 
 1. Install Powershell for Azure from here.
 
@@ -75,7 +78,8 @@ Click to Deploy using Microsoft Azure Portal
 
 
 
-**Steps to Download and Publish Sample Function App (Written in C#, working on NodeJS Version)**
+Steps to Download and Publish Sample Function App (Written in C#, working on NodeJS Version)
+------------------------------------------------------------------------
 
 1. Download Sample Function App from [here](https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleFunctionApp).
 
@@ -87,7 +91,7 @@ Click to Deploy using Microsoft Azure Portal
 
 5.  **NOTE**: You need to modify Web Configuration Setting either using Azure Portal or by defining [appsettings.json](https://raw.githubusercontent.com/Microsoft-USEduAzure/templates/master/Genomics-FastQDataAnalysis/SampleFunctionApp/SampleFunctionApp/appsettings.json) file provided. You can define one storage account for Function App and Azure Batch processing by defining same connection string or keep them in separate storage accounts.
 
-(Web Configuration Settings to modify):
+**(Web Configuration Settings to modify):**
 
 "**AzureWebJobsStorage**": "DefaultEndpointsProtocol=https;AccountName=**YourAccount**;AccountKey=**YourKey**",
     
