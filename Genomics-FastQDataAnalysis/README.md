@@ -42,23 +42,24 @@ Combining Azure Batch with Azure Functions, Azure Data Lake and Power-BI can ena
  - End to end security and collaboration of proprietary research
    operations and data.
 
+
 **Steps to Deploy Required Resources in Azure**
 
 Option 1: Direct Deployment from GitHub 
 
-Click to Preview Deployed Resources
-
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
-    <img src="http://armviz.io/visualizebutton.png"/>
-</a>
-
-OR
-
-Click to Deploy using Microsoft Azure Portal 
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
+	Click to Preview Deployed Resources
+	
+	<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
+	    <img src="http://armviz.io/visualizebutton.png"/>
+	</a>
+	
+	OR
+	
+	Click to Deploy using Microsoft Azure Portal 
+	
+	<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
+	    <img src="http://azuredeploy.net/deploybutton.png"/>
+	</a>
 
 Option 2: Using Powershell
 1. Browse to https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleDeploymentScript/AzureARMTemplate
