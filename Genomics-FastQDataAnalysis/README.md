@@ -73,4 +73,33 @@ Click to Deploy using Microsoft Azure Portal
 
 6. Modify and Execute [PowerShell Script](https://raw.githubusercontent.com/Microsoft-USEduAzure/templates/master/Genomics-FastQDataAnalysis/SampleDeploymentScript/AzureARMTemplate/deploy.sh).
 
+
+
+**Steps to Download and Publish Sample Function App (Written in C#, working on NodeJS Version)**
+
+1. Download Sample Function App from [here](https://github.com/Microsoft-USEduAzure/templates/tree/master/Genomics-FastQDataAnalysis/SampleFunctionApp).
+
+2.  Open the solution inside Visual Studio 2015 Update 3 or later.
+
+3.  Rename the Solution and Project name suitable for your needs.
+
+4.  Publish to Azure App Service using Publish menu item by right clicking the Project inside Solution Explorer.
+
+5.  **NOTE**: You need to modify Web Configuration Setting either using Azure Portal or by defining [appsettings.json](https://raw.githubusercontent.com/Microsoft-USEduAzure/templates/master/Genomics-FastQDataAnalysis/SampleFunctionApp/SampleFunctionApp/appsettings.json) file provided. You can define one storage account for Function App and Azure Batch processing by defining same connection string or keep them in separate storage accounts.
+
+(Web Configuration Settings to modify):
+
+"**AzureWebJobsStorage**": "DefaultEndpointsProtocol=https;AccountName=**YourAccount**;AccountKey=**YourKey**",
+    
+"**AzureWebJobsDashboard**": "DefaultEndpointsProtocol=https;AccountName=**YourAccount**;AccountKey=YourKey",
+
+"**StorageAccountMain**": "DefaultEndpointsProtocol=https;AccountName=YourAccount;AccountKey=**YourKey**",
+    
+"**BatchAccountName**": "YourBatchAccount",
+"**BatchAccountURL**": "YourBatchAccountURL",
+"**BatchAccountKey**": "YourBatchAccountKey"
+
+
+----------
+
 > Written with [StackEdit](https://stackedit.io/).
