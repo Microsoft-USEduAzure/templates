@@ -20,7 +20,7 @@ namespace PortalGenerated
         string clientSecret = "your-service-principal-client-secret";
         string resourceGroupName = "resource-group-name";
         string deploymentName = "deployment-name";
-        string resourceGroupLocation = "resource-group-location"; // must be specified for creating a new resource group
+        string resourceGroupLocation = "resource-group-location";  // must be specified for creating a new resource group
         string pathToTemplateFile = "path-to-template.json-on-disk";
         string pathToParameterFile = "path-to-parameters.json-on-disk";
         string tenantId = "tenant-id";
