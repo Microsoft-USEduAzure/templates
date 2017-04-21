@@ -99,7 +99,7 @@ OR
 
 Click to Deploy using Microsoft Azure Portal 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FGenomics-FastQDataAnalysis%2FSampleDeploymentScript%2FAzureARMTemplate%2Ftemplate.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft-USEduAzure%2Ftemplates%2Fmaster%2FEduSolution1%2Ftemplate.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
