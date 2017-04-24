@@ -1,0 +1,49 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "value": "cadoe4321"
+    },
+    "existingVnetResourceId": {
+      "value": "/subscriptions/760a8f5c-76e0-410d-bc1e-3667963f9c53/resourceGroups/CADOE/providers/Microsoft.Network/virtualNetworks/WUS-NP-VNET-App"
+    },
+    "subnetName": {
+      "value": "WUS-NP-SUB-MGT_172.25.254.192_26"
+    },
+    "vmNICName": {
+      "value": "WUS-NP-NIC-JumpBox"
+    },
+    "vmInternalIPAddress": {
+      "value": "172.25.254.196"
+    },
+    "vmName": {
+      "value": "WUS-NP-VM-JBX"
+    },
+    "adminUsername": {
+      "value": "vmadmin"
+    },
+    "vmSize": {
+      "value": "Standard_D1_v2"
+    },
+    "imagePublisher": {
+      "value": "MicrosoftVisualStudio"
+    },
+    "imageOffer": {
+      "value": "VisualStudio"
+    },
+    "imageSKU": {
+      "value": "VS-2015-Comm-VSU3-AzureSDK-29-WS2012R2"
+         },
+
+    "vmNSGName": {
+      "value": "WUS-NP-NSG-JumpBox"
+    },
+    "vmPublicIPName": {
+      "value": "WUS-NP-PIP-JumpBox"
+    },
+      "adminPassword": {
+          "value": "CAdoe4321!@#"
+      }
+  }
+}

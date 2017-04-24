@@ -1,0 +1,54 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "aseName": {
+      "value": "cadoease"
+    },
+    "aseLocation": {
+      "value": "West US"
+    },
+    "existingVnetResourceId": {
+      "value": "/subscriptions/760a8f5c-76e0-410d-bc1e-3667963f9c53/resourceGroups/CADOE/providers/Microsoft.Network/virtualNetworks/WUS-NP-VNET-App"
+    },
+    "subnetName": {
+      "value": "WUS-NP-SUB-PREZ_172.25.254.0_26"
+    },
+    "internalLoadBalancingMode": {
+      "value": 1
+    },
+    "dnsSuffix": {
+      "value": "cadoe4321.com"
+    },
+    "frontEndSize": {
+      "value": "Medium"
+    },
+    "frontEndCount": {
+      "value": 2
+    },
+    "workerPoolOneInstanceSize": {
+      "value": "Small"
+    },
+    "workerPoolOneInstanceCount": {
+      "value": 2
+    },
+    "workerPoolTwoInstanceSize": {
+      "value": "Small"
+    },
+    "workerPoolTwoInstanceCount": {
+      "value": 0
+    },
+    "workerPoolThreeInstanceSize": {
+      "value": "Small"
+    },
+    "workerPoolThreeInstanceCount": {
+      "value": 0
+    },
+    "appServicePlanName": {
+      "value": "WUS-NP-ASP-ASEPlan"
+    },
+    "webAppName": {
+      "value": "helloworld"
+    }
+  }
+}

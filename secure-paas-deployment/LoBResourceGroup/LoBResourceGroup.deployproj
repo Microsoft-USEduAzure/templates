@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>50423a72-6f9f-4bc2-a598-b2b68b2bd255</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworkIdentifier>Deployment</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>1.0</TargetFrameworkVersion>
+    <PrepareForBuildDependsOn>
+    </PrepareForBuildDependsOn>
+  </PropertyGroup>
+  <Import Condition=" Exists('Deployment.targets') " Project="Deployment.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- vertag<:>start tokens<:>maj.min -->
+  <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
+  <!-- vertag<:>end -->
+  <ItemGroup>
+    <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
+    <None Include="Deployment.targets">
+      <Visible>False</Visible>
+    </None>
+    <Content Include="DSC\storagespacesdirect.ps1" />
+    <None Include="Scripts\Create-SelfSignCertificate.ps1" />
+    <None Include="Scripts\CreateKeyVaultAndCertificate.ps1" />
+    <None Include="Scripts\CreateS2D.ps1" />
+    <None Include="Scripts\Remove-AllFromResourceGroup.ps1" />
+    <None Include="Templates\ase-private.json" />
+    <None Include="Templates\ase-private.parameters.json" />
+    <None Include="Templates\asf-private.json" />
+    <None Include="Templates\asf-private.parameters.json" />
+    <None Include="Templates\azuredeploystoragespaces.json" />
+    <None Include="Templates\azuresqldeploy.json" />
+    <None Include="Templates\azuresqldeploy.parameters.json" />
+    <None Include="Templates\sqlvmdomainjoin.json" />
+    <None Include="Templates\sqlvmdomainjoin.parameters.json" />
+  </ItemGroup>
+  <Target Name="GetReferenceAssemblyPaths" />
+</Project>

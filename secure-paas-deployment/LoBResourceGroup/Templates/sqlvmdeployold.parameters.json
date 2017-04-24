@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "AvailabilitySetNameName": {
+      "value": "SQL_AS_Clust"
+    },
+    "VirtualMachineNameName": {
+      "value": "SQL-VM"
+    },
+    "VirtualMachineNameAdminUserName": {
+      "value": "vmadmin"
+    },
+    "VirtualMachineNameAdminPassword": {
+      "value": "CAdoe4321!@#"
+    },
+    "virtualNetworkName": {
+      "value": "WUS-NP-VNET-App"
+    },
+    "virtualNetworkResourceGroup": {
+      "value": "CADOE"
+    },
+    "subnetName": {
+      "value": "WUS-NP-SUB-BBE_172.25.254.128_26"
+    }
+  }
+}

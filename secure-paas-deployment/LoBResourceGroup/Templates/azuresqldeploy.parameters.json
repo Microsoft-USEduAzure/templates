@@ -1,0 +1,27 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vmadmin"
+    },
+    "adminPassword": {
+      "value": "CAdoe4321!@#"
+    },
+    "vnetName": {
+      "value": "WUS-NP-VNET-App"
+    },
+    "subnetName": {
+      "value": "WUS-NP-SUB-BBE_172.25.254.128_26"
+    },
+    "virtualNetworkResourceGroup": {
+      "value": "CADOE"
+    },
+    "vmSize": {
+      "value": "Standard_D2_v2"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    }
+  }
+}

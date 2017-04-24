@@ -1,0 +1,37 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "value": "WUS-NP-VNET-SEC"
+    },
+    "subnetName": {
+      "value": "WUS-NP-SUB-INSEC_172.25.255.0_27"
+    },
+    "publicIPAddressName": {
+      "value": "WUS-NP-PIP-AppGateway"
+    },
+    "applicationGatewayName": {
+      "value": "WUS-NP-AG-WAF"
+    },
+    "applicationGatewaySize": {
+      "value": "Standard_Small"
+    },
+    "applicationGatewayInstanceCount": {
+      "value": 2
+    },
+    "frontendPort": {
+      "value": 80
+    },
+    "backendPort": {
+      "value": 80
+    },
+    "backendIPAddresses": {
+      "value": [
+        {
+          "IpAddress": "172.25.254.9"
+        }
+      ]
+    }
+  }
+}

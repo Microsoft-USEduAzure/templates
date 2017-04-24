@@ -1,0 +1,697 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "LoBVNetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-VNET-MDB"
+    },
+    "LoBVNetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.254.0/24"
+    },
+    "LoBVNetPresentationSubnetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-SUB-PREZ_172.25.254.0_26"
+    },
+    "LoBVNetPresentationSubnetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.254.0/26"
+    },
+    "LoBVNetBusinessFrontEndSubnetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-SUB-BFE_172.25.254.64_26"
+    },
+    "LoBVNetBusinessFrontEndSubnetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.254.64/26"
+    },
+    "LoBVNetBusinessBackEndSubnetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-SUB-BBE_172.25.254.128_26"
+    },
+    "LoBVNetBusinessBackEndSubnetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.254.128/26"
+    },
+    "LoBVNetManagementSubnetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-SUB-MGT_172.25.254.192_26"
+    },
+    "LoBVNetManagemnetSubnetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.254.192/26"
+    },
+    "SecurityVNetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-VNET-SEC"
+    },
+    "SecurityVNetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.255.0/25"
+    },
+    "SecurityVNetIngressSubnetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-SUB-INSEC_172.25.255.0_27"
+    },
+    "SecurityVNetIngressSubnetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.255.0/27"
+    },
+    "SecurityVNetIdentitySubnetName": {
+      "type": "String",
+      "defaultValue": "SFWUS-NP-SUB-ID_172.25.255.32_27"
+    },
+    "SecurityVNetIdentitySubnetAddressRange": {
+      "type": "String",
+      "defaultValue": "172.25.255.32/27"
+    }
+  },
+  "variables": {
+    "serviceFabricPorts": {
+      "tcpGatewayPort": "19000",
+      "httpGatewayPort": "19080",
+      "clusterPorts": "1025-1027",
+      "applicationPorts": "20000-30000",
+      "reverseProxyPort":  443,
+      "applicationStartPort": "20000",
+      "applicationEndPort": "30000",
+      "ephemeralPorts": "49152-65534"
+    }
+  },
+  "resources": [
+    /* Network Security Groups */
+    {
+      "comments": "Create Network Security Group for Management Subnet",
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[concat('nsg', parameters('LoBVNetManagementSubnetName'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "comments": "allow port used by the fabric cluster web portal",
+            "name": "allowSvcFabPortal",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1000,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['httpGatewayPort']]"
+            }
+          },
+          {
+            "comments": "allow port used by fabric clients (includes powershell)",
+            "name": "allowSvcFabClient",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1010,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['tcpGatewayPort']]"
+            }
+          },
+          {
+            "comments": "allow ports within vnet that are used by the fabric to talk between nodes",
+            "name": "allowSvcFabCluser",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1020,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['clusterPorts']]"
+            }
+          },
+          {
+            "comments": "allow fabric ephemeral ports within the vnet",
+            "name": "allowSvcFabEphemeral",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1030,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['ephemeralPorts']]"
+            }
+          },
+          {
+            "comments": "allow SMB traffic within the net, used by fabric to move packages around",
+            "name": "allowSvcFabSMB",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1040,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "445"
+            }
+          },
+          {
+            "comments": "allow RDP within the net",
+            "name": "allowVNetRDP",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1050,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "3389"
+            }
+          },
+          {
+            "comments": "allow RDP into the Jumpbox from the internet",
+            "name": "allowJumpBoxRDP",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1060,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*", /* change to specific 172.25.25x.xxx once jumpbox VM is provisioned */
+              "destinationPortRange": "3389"
+            }
+          },
+          {
+            "comments": "block all traffic except what we've explicitly allowed",
+            "name": "blockAll",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 4000,
+              "access": "Deny",
+              "protocol": "*",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "comments": "Create Network Security Group for Business Back End Subnet",
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[concat('nsg', parameters('LoBVNetBusinessBackEndSubnetName'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "comments": "allow sf application ports",
+            "name": "allowSvcFabAppPorts",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1000,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['applicationPorts']]"
+            }
+          },
+          {
+            "comments": "allow ports within vnet that are used by the fabric to talk between nodes",
+            "name": "allowSvcFabCluser",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1020,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['clusterPorts']]"
+            }
+          },
+          {
+            "comments": "allow fabric ephemeral ports within the vnet",
+            "name": "allowSvcFabEphemeral",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1030,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['ephemeralPorts']]"
+            }
+          },
+          {
+            "comments": "allow SMB traffic within the net, used by fabric to move packages around",
+            "name": "allowSvcFabSMB",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1040,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "445"
+            }
+          },
+          {
+            "comments": "allow RDP within the net",
+            "name": "allowVNetRDP",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1050,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "3389"
+            }
+          },
+          {
+            "comments": "block all traffic except what we've explicitly allowed",
+            "name": "blockAll",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 4000,
+              "access": "Deny",
+              "protocol": "*",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "comments": "Create Network Security Group for Business Front End Subnet",
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[concat('nsg', parameters('LoBVNetBusinessFrontEndSubnetName'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "comments": "allow sf application ports",
+            "name": "allowSvcFabAppPorts",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1000,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['applicationPorts']]"
+            }
+          },
+          {
+            "comments": "allow sf reverse proxy",
+            "name": "allowSvcFabReverseProxy",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1010,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['reverseProxyPort']]"
+            }
+          },
+          {
+            "comments": "allow ports within vnet that are used by the fabric to talk between nodes",
+            "name": "allowSvcFabCluser",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1020,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['clusterPorts']]"
+            }
+          },
+          {
+            "comments": "allow fabric ephemeral ports within the vnet",
+            "name": "allowSvcFabEphemeral",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1030,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "[variables('serviceFabricPorts')['ephemeralPorts']]"
+            }
+          },
+          {
+            "comments": "allow SMB traffic within the net, used by fabric to move packages around",
+            "name": "allowSvcFabSMB",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1040,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "445"
+            }
+          },
+          {
+            "comments": "allow RDP within the net",
+            "name": "allowVNetRDP",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1050,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "3389"
+            }
+          },
+          {
+            "comments": "block all traffic except what we've explicitly allowed",
+            "name": "blockAll",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 4000,
+              "access": "Deny",
+              "protocol": "*",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "comments": "Create Network Security Group for Presentation Subnet",
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[concat('nsg', parameters('LoBVNetPresentationSubnetName'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "comments": "used by Azure infrastructure for managing and maintaining App Service Environments via SSL",
+            "name": "allowASEManagementPorts",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 1000,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "454-455"
+            }
+          },
+          {
+            "comments": "allow all traffic from within the Vnet",
+            "name": "allowVNetTraffic",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 2000,
+              "access": "Allow",
+              "protocol": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "*"
+            }
+          },
+          {
+            "comments": "block all traffic except what we've explicitly allowed",
+            "name": "blockAll",
+            "properties": {
+              "direction": "Inbound",
+              "priority": 3000,
+              "access": "Deny",
+              "protocol": "*",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "comments": "Create Network Security Group for Presentation Subnet",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "SFWUS_NP_NSG_SEC_ID_SUB",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "VNetTraffic",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "BlaockAll",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 2000,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Create Network Security Group for ingress security Subnet",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "SFWUS_NP_NSG_SEC_IN_SUB",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTPS",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "HTTP",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1010,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "BlockAll",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 2000,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+
+
+
+    /* Virtual Network */
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[parameters('LoBVNetName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', concat('nsg', parameters('LoBVNetPresentationSubnetName')))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', concat('nsg', parameters('LoBVNetBusinessFrontEndSubnetName')))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', concat('nsg', parameters('LoBVNetBusinessBackEndSubnetName')))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', concat('nsg', parameters('LoBVNetManagementSubnetName')))]"
+      ],
+
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('LoBVNetAddressRange')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('LoBVNetPresentationSubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('LoBVNetPresentationSubnetAddressRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat('nsg', parameters('LoBVNetPresentationSubnetName')))]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('LoBVNetBusinessFrontEndSubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('LoBVNetBusinessFrontEndSubnetAddressRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat('nsg', parameters('LoBVNetBusinessFrontEndSubnetName')))]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('LoBVNetBusinessBackEndSubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('LoBVNetBusinessBackEndSubnetAddressRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat('nsg', parameters('LoBVNetBusinessBackEndSubnetName')))]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('LoBVNetManagementSubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('LoBVNetManagemnetSubnetAddressRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat('nsg', parameters('LoBVNetManagementSubnetName')))]"
+              }
+            }
+          }
+        ]
+      },
+      "resources": []
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[parameters('SecurityVNetName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', 'SFWUS_NP_NSG_SEC_IN_SUB')]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', 'SFWUS_NP_NSG_SEC_ID_SUB')]"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('SecurityVNetAddressRange')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('SecurityVNetIngressSubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('SecurityVNetIngressSubnetAddressRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'SFWUS_NP_NSG_SEC_IN_SUB')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('SecurityVNetIdentitySubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('SecurityVNetIdentitySubnetAddressRange')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'SFWUS_NP_NSG_SEC_ID_SUB')]"
+              }
+
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[concat(parameters('LoBVNetName'), '/LinkToSecurityVNet')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": false,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('SecurityVNetName'))]"
+        }
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('LoBVNetName'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('SecurityVNetName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[concat(parameters('SecurityVNetName'), '/LinkToLoBVNet')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": false,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('LoBVNetName'))]"
+        }
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('LoBVNetName'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('SecurityVNetName'))]"
+      ]
+    }
+
+  ]
+}
+

@@ -1,0 +1,63 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "newStorageAccountName": {
+      "value": "cadoe4321"
+    },
+    "adminUsername": {
+      "value": "vmadmin"
+    },
+    "adminPassword": {
+      "value": "CAdoe4321!@#"
+    },
+    "adVMSize": {
+      "value": "Standard_D1_v2"
+    },
+    "dnsPrefix": {
+      "value": "cadoe4321"
+    },
+    "publicIPAddressName": {
+      "value": "adPubIp"
+    },
+    "domainName": {
+      "value": "cadoe4321.com"
+    },
+      "storageAccountType": {
+          "value": "Standard_LRS"
+      },
+      "virtualNetworkName": {
+          "value": "WUS-NP-VNET-SEC"
+      },
+      "virtualNetworkAddressRange": {
+          "value": "172.25.255.0/25"
+      },
+      "adSubnetName": {
+          "value": "WUS-NP-SUB-ID_172.25.255.32_27"
+      },
+      "adSubnet": {
+          "value": "172.25.255.32/27"
+      },
+      "adPDCNicName": {
+          "value": "WUS-NP-NIC-PrimaryDC"
+      },
+      "adPDCNicIPAddress": {
+          "value": "172.25.255.36"
+      },
+      "adBDCNicName": {
+          "value": "WUS-NP-NIC-BackupDC"
+      },
+      "adBDCNicIPAddress": {
+          "value": "172.25.255.37"
+      },
+      "adPDCVMName": {
+          "value": "WUS-NP-VM-PDC"
+      },
+      "adBDCVMName": {
+          "value": "WUS-NP-VM-BDC"
+      },
+      "adAvailabilitySetName": {
+          "value": "WUS-NP-AS-DomainControllers"
+      }
+  }
+}

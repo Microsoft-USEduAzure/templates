@@ -1,0 +1,21 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "West US"
+    },
+    "vmList": {
+      "value": "sqlvm1"
+    },
+    "domainJoinUserName": {
+      "value": "cadoe4321\\vmadmin"
+    },
+    "domainJoinUserPassword": {
+      "value": "CAdoe4321!@#"
+    },
+    "domainFQDN": {
+      "value": "cadoe4321.com"
+    }
+  }
+}

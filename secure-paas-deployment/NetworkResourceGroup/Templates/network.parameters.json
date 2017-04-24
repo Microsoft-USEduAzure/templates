@@ -1,0 +1,54 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "LoBVNetName": {
+      "value": "WUS-NP-VNET-App"
+    },
+    "LoBVNetAddressRange": {
+      "value": "172.25.254.0/24"
+    },
+    "LoBVNetPresentationSubnetName": {
+      "value": "WUS-NP-SUB-PREZ_172.25.254.0_26"
+    },
+    "LoBVNetPresentationSubnetAddressRange": {
+      "value": "172.25.254.0/26"
+    },
+    "LoBVNetBusinessFrontEndSubnetName": {
+      "value": "WUS-NP-SUB-BFE_172.25.254.64_26"
+    },
+    "LoBVNetBusinessFrontEndSubnetAddressRange": {
+      "value": "172.25.254.64/26"
+    },
+    "LoBVNetBusinessBackEndSubnetName": {
+      "value": "WUS-NP-SUB-BBE_172.25.254.128_26"
+    },
+    "LoBVNetBusinessBackEndSubnetAddressRange": {
+      "value": "172.25.254.128/26"
+    },
+    "LoBVNetManagementSubnetName": {
+      "value": "WUS-NP-SUB-MGT_172.25.254.192_26"
+    },
+    "LoBVNetManagemnetSubnetAddressRange": {
+      "value": "172.25.254.192/26"
+    },
+    "SecurityVNetName": {
+      "value": "WUS-NP-VNET-SEC"
+    },
+    "SecurityVNetAddressRange": {
+      "value": "172.25.255.0/25"
+    },
+    "SecurityVNetIngressSubnetName": {
+      "value": "WUS-NP-SUB-INSEC_172.25.255.0_27"
+    },
+    "SecurityVNetIngressSubnetAddressRange": {
+      "value": "172.25.255.0/27"
+    },
+    "SecurityVNetIdentitySubnetName": {
+      "value": "WUS-NP-SUB-ID_172.25.255.32_27"
+    },
+    "SecurityVNetIdentitySubnetAddressRange": {
+      "value": "172.25.255.32/27"
+    }
+  }
+}

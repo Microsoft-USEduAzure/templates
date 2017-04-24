@@ -1,0 +1,207 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "AvailabilitySetNameName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "numberofInstances": {
+      "type": "int",
+      "defaultValue": 2
+    },
+    "StorageAccountNameType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "VirtualMachineNameName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "VirtualMachineNameAdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "VirtualMachineNameAdminPassword": {
+      "type": "securestring"
+    },
+    "VirtualMachineNameWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2016-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview",
+        "2016-Datacenter"
+      ]
+    },
+    "virtualNetworkName": {
+      "type": "string",
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+    },
+    "subnetName": {
+      "type": "string",
+    }
+  },
+  "variables": {
+    "availsetname": "[parameters('AvailabilitySetNameName')]",
+    "StorageAccountNameName": "[concat('staname', uniqueString(resourceGroup().id))]",
+    "VirtualMachineNameImagePublisher": "MicrosoftWindowsServer",
+    "VirtualMachineNameImageOffer": "WindowsServer",
+    "VirtualMachineNameOSDiskName": "VirtualMachineNameOSDisk",
+    "VirtualMachineNameVmSize": "Standard_D2_v2",
+    "VirtualMachineNameVnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "VirtualMachineNameSubnetRef": "[concat(variables('VirtualMachineNameVnetID'), '/subnets/', parameters('subnetName'))]",
+    "VirtualMachineNameStorageAccountContainerName": "vhds",
+    "VirtualMachineNameNicName": "[concat(parameters('VirtualMachineNameName'), 'NetworkInterface')]"
+  },
+  "resources": [
+      {
+          "name": "[parameters('AvailabilitySetNameName')]",
+          "type": "Microsoft.Compute/availabilitySets",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [ ],
+          "tags": {
+              "displayName": "AvailabilitySetName"
+          },
+          "properties": {
+              "platformUpdateDomainCount": 2,
+              "platformFaultDomainCount": 2
+          }
+      },
+      {
+          "name": "[variables('StorageAccountNameName')]",
+          "type": "Microsoft.Storage/storageAccounts",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [ ],
+          "tags": {
+              "displayName": "StorageAccountName"
+          },
+          "properties": {
+              "accountType": "[parameters('StorageAccountNameType')]"
+          }
+      },
+      {
+          "name": "[concat(variables('VirtualMachineNameNicName'), copyIndex())]",
+          "type": "Microsoft.Network/networkInterfaces",
+          "location": "West US",
+          "apiVersion": "2016-03-30",
+          "dependsOn": [ ],
+        "tags": {
+          "displayName": "VirtualMachineNameNic"
+        },
+        "copy": {
+          "name": "nicLoop",
+          "count": "[parameters('numberofInstances')]"
+        },
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipconfig1",
+                      "properties": {
+                          "privateIPAllocationMethod": "Dynamic",
+                          "subnet": {
+                              "id": "[variables('VirtualMachineNameSubnetRef')]"
+                          }
+                      }
+                  }
+              ]
+          }
+      },
+    {
+      "name": "[concat(parameters('VirtualMachineNameName'), copyIndex())]",
+      "copy": {
+        "name": "virtualMachineLoop",
+        "count": "[parameters('numberofInstances')]"
+      },
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountNameName'))]",
+        //"[resourceId('Microsoft.Network/networkInterfaces', variables('VirtualMachineNameNicName'))]",
+        "nicLoop",
+        "[resourceId('Microsoft.Compute/availabilitySets/', variables('availsetname'))]"
+      ],
+
+      "tags": {
+        "displayName": "VirtualMachineName"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availsetname'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('VirtualMachineNameVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[concat(parameters('VirtualMachineNameName'), copyIndex())]",
+          "adminUsername": "[parameters('VirtualMachineNameAdminUsername')]",
+          "adminPassword": "[parameters('VirtualMachineNameAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('VirtualMachineNameImagePublisher')]",
+            "offer": "[variables('VirtualMachineNameImageOffer')]",
+            "sku": "[parameters('VirtualMachineNameWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat('VirtualMachineNameOSDisk_', copyIndex())]",
+            "vhd": {
+              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountNameName')), '2016-01-01').primaryEndpoints.blob, variables('VirtualMachineNameStorageAccountContainerName'), '/', variables('VirtualMachineNameOSDiskName'), '_',copyIndex(), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          },
+          "dataDisks": [
+            {
+              "lun": 0,
+              "name": "[ concat('data-as-01_', copyindex())]",
+              "createOption": "Empty",
+              "vhd": {
+                "uri": "[concat('https', '://', variables('StorageAccountNameName'), '.blob.core.windows.net', '/vhds/data-as-01-', copyIndex(),'.vhd')]"
+              },
+              "caching": "ReadOnly",
+              "diskSizeGB": "512"
+            },
+            {
+              "lun": 1,
+              "name": "[concat('data-as-02_', copyIndex())]",
+              "createOption": "Empty",
+              "vhd": {
+                "uri": "[concat('https', '://', variables('StorageAccountNameName'), '.blob.core.windows.net', '/vhds/data-as-02-', copyIndex(), '.vhd')]"
+              },
+              "caching": "ReadOnly",
+              "diskSizeGB": "512"
+            }
+          ]
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              //  "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VirtualMachineNameNicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VirtualMachineNameNicName'), copyIndex()))]"
+              //"id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VirtualMachineNameNicName'), '1'))]"
+            }
+          ]
+        }
+      }
+    }
+
+  ],
+  "outputs": {}
+}
+

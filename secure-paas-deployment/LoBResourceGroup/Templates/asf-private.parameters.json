@@ -1,0 +1,98 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "clusterName": {
+      "value": "contoso"
+    },
+    "adminUserName": {
+      "value": "vmadmin"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/[subscription id]/resourceGroups/[resource group name]/providers/Microsoft.KeyVault/vaults/[KeyVault name]"
+        },
+        "secretName": "[secret name]"
+      }
+    },
+    "existingVNetResourceGroupName": {
+      "value": "NetworkRG"
+    },
+    "virtualNetworkName": {
+      "value": "WUS-NP-VNET-App"
+    },
+    "frontEndSubnetName": {
+      "value": "WUS-NP-SUB-BFE_172.25.254.64_26"
+    },
+    "backEndSubnetName": {
+      "value": "WUS-NP-SUB-BBE_172.25.254.128_26"
+    },
+    "managementSubnetName": {
+      "value": "WUS-NP-SUB-MGT_172.25.254.192_26"
+    },
+    "frontEndLoadBalancerIPAddress": {
+      "value": "172.25.254.68"
+    },
+    "backendLoadBalancerIPAddress": {
+      "value": "172.25.254.132"
+    },
+    "mgmntLoadBalancerIPAddress": {
+      "value": "172.25.254.200"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "vmLogStorageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "applicationDiagnosticsStorageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "vmssDurabilityLevel": {
+      "value": "Bronze"
+    },
+    "frontEndVMSize": {
+      "value": "Standard_D2"
+    },
+    "frontEndVMInstanceCount": {
+      "value": 3
+    },
+    "backEndVMSize": {
+      "value": "Standard_D2"
+    },
+    "backEndVMInstanceCount": {
+      "value": 3
+    },
+    "managementVMSize": {
+      "value": "Standard_D1"
+    },
+    "managementVMInstanceCount": {
+      "value": 3
+    },
+    "clusterDurabilityLevel": {
+      "value": "Bronze"
+    },
+    "clusterReliabilityLevel": {
+      "value": "Bronze"
+    },
+    "certificateStoreValue": {
+      "value": "My"
+    },
+    "certificateThumbprint": {
+      "value": "[cert thumbprint here]"
+    },
+    "sourceVaultValue": {
+      "value": "[Key Vault resource ID here]"
+    },
+    "certificateUrlValue": {
+      "value": "https://[key vault name here].vault.azure.net:443/secrets/[secret name here]/..."
+    },
+    "clusterProtectionLevel": {
+      "value": "EncryptAndSign"
+    },
+    "svcFabReverseProxyPort": {
+      "value": 443
+    }
+  }
+}
