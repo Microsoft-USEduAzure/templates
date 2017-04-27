@@ -7,7 +7,7 @@ Data Analysis and Reporting Architecture for Education
 
 **Problem Statement**
 
-**Solution Architecture and Components**
+**Solution Architecture and Components **
 
 ----------
 
