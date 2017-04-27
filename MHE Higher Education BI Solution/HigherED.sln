@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "HigherED.Staging", "HigherED.Staging\HigherED.Staging.dtproj", "{41ACBEE6-EE78-4E25-B68B-7960F6263A21}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "HigherED.LoadDW", "HigherED.LoadDW\HigherED.LoadDW.dtproj", "{51FB05A0-2A37-4A5F-A6B7-786DC2FECF67}"
+EndProject
+Project("{6870E480-7721-4708-BFB8-9AE898AA21B3}") = "HigherED.Tabular", "HigherED.Tabular\HigherED.Tabular.smproj", "{8CE414BB-95B2-4C99-9E03-51BA72086E22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|x86 = Development|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41ACBEE6-EE78-4E25-B68B-7960F6263A21}.Development|x86.ActiveCfg = Development
+		{41ACBEE6-EE78-4E25-B68B-7960F6263A21}.Development|x86.Build.0 = Development
+		{51FB05A0-2A37-4A5F-A6B7-786DC2FECF67}.Development|x86.ActiveCfg = Development
+		{51FB05A0-2A37-4A5F-A6B7-786DC2FECF67}.Development|x86.Build.0 = Development
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.ActiveCfg = Development|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.Build.0 = Development|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.Deploy.0 = Development|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
