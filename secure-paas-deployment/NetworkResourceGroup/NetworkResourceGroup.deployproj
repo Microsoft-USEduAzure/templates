@@ -30,6 +30,7 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
+    <None Include="json.json" />
     <None Include="Scripts\Add-ProbeToExistingGateway.ps1" />
     <None Include="Scripts\Configure-AppGatewayCertificate.ps1" />
     <None Include="Scripts\Remove-AllFromResourceGroup.ps1" />

@@ -1,7 +1,7 @@
 Configuration Main
 {
 
-Param ( [string] $nodeName )
+Param ( [string] $nodeName ) 
 
 Import-DscResource -ModuleName PSDesiredStateConfiguration
 

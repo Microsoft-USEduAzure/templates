@@ -30,6 +30,7 @@
       <Visible>False</Visible>
     </None>
     <Content Include="DSC\storagespacesdirect.ps1" />
+    <None Include="json.json" />
     <None Include="Scripts\Create-SelfSignCertificate.ps1" />
     <None Include="Scripts\CreateKeyVaultAndCertificate.ps1" />
     <None Include="Scripts\CreateS2D.ps1" />
