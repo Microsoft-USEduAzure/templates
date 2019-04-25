@@ -1,7 +1,7 @@
 <#
  .SYNOPSIS
     Deploys a template to Azure
-
+	 
  .DESCRIPTION
     Deploys an Azure Resource Manager template
 

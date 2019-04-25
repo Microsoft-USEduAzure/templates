@@ -1,6 +1,6 @@
-Data Analysis Solution for Genomics FastQ Sample Files
+Data Analysis Solution for Genomics FastQ Sample Files 
 ----------
-
+ 
 
 ----------
 
